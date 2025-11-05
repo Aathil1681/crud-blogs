@@ -1,12 +1,13 @@
-import { BlogInput } from "@/app/api/blog/types";
 import api from "@/app/helpers/baseApi";
 import queryClient from "@/app/helpers/queryClient";
+import { BlogInput } from "@/types/types";
 import { Blog } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 
 const useCreateBlog = () => {
   const createBlogFn = async (values: BlogInput): Promise<Blog> => {
-    return await api.post("blog", values);
+    const response = await api.post("blog", values);
+    return response.data;
   };
 
   //useQuery:getting information from server like GET(ex: fetch user)

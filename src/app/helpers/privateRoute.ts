@@ -1,8 +1,5 @@
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { string } from "zod";
-import verifyToken from "./verifyToken";
-import decodeToken from "./decodeToken";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 export default async function privateRoute(

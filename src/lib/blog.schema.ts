@@ -31,6 +31,10 @@ const BlogSchema = z.object({
     .refine((val) => val.split(/\s+/).length >= 10, {
       message: "Content must contain at least 10 words",
     }),
+
+  image: z
+    .string({ required_error: "Image URL is required" })
+    .url({ message: "Invalid image URL format" }),
 });
 
 const BlogQuerySchema = z.object({

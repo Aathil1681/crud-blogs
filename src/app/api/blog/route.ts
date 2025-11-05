@@ -1,3 +1,4 @@
+// app/api/blog/route.ts
 import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../lib/prisma";
@@ -75,6 +76,7 @@ export async function GET(request: NextRequest) {
         },
         skip: (page - 1) * size,
         take: size,
+        orderBy: { createdAt: "desc" },
       }),
       prisma.blog.count({ where: { ...searchFilter } }),
     ]);

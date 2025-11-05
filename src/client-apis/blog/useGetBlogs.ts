@@ -1,7 +1,8 @@
-import { GetBlogParam } from "@/app/api/blog/types";
 import api from "@/app/helpers/baseApi";
 import { Blog } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+
+type GetBlogParam = { page?: number; size?: number; search?: string };
 
 export default function useGetBlogs(params: GetBlogParam) {
   const getBlogFn = async ({
@@ -9,21 +10,16 @@ export default function useGetBlogs(params: GetBlogParam) {
   }: {
     signal: AbortSignal;
   }): Promise<{ items: Blog[]; count: number }> => {
-    try {
-      return await (
-        await api.get("blog", {
-          params,
-          signal,
-        })
-      ).data;
-    } catch (error) {
-      console.log({ error });
-      throw error;
-    }
+    const response = await api.get("blog", {
+      params,
+      signal,
+    });
+    return response.data;
   };
 
   return useQuery({
     queryKey: ["get-blogs", params],
     queryFn: getBlogFn,
+    enabled: true,
   });
 }

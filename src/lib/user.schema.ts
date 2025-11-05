@@ -49,6 +49,19 @@ const UserSchema = z.object({
     }),
 });
 
+const LoginSchema = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .email({ message: "Invalid email format" })
+    .max(255, { message: "Email cannot exceed 255 characters" })
+    .trim()
+    .toLowerCase(),
+
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(1, { message: "Password is required" }), // Only require it to exist for login
+});
+
 const UserQuerySchema = z.object({
   page: z
     .string()
@@ -66,4 +79,4 @@ const UserQuerySchema = z.object({
     }),
 });
 
-export { UserSchema, UserQuerySchema };
+export { UserSchema, UserQuerySchema, LoginSchema };

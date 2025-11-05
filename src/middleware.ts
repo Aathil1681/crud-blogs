@@ -19,12 +19,7 @@ export async function middleware(request: NextRequest) {
       console.log({ payload });
     }
 
-    const onlyPublicRoutes = [
-      "/register",
-      "/login",
-      "forgot-password",
-      "reset-password",
-    ];
+    const onlyPublicRoutes = ["/register", "/login"];
 
     //check if it is not user and requested url is not mentioned in onlyPrivateRoute
     //This will redirect user to requested page after login is completed

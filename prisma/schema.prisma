@@ -16,6 +16,7 @@ model Blog {
   title   String
   slug    String @unique
   content String
+  image   String? // Image URL or file path
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
