@@ -12,8 +12,6 @@ import {
   FiFileText,
   FiArrowLeft,
   FiLogOut,
-  FiMenu,
-  FiXCircle,
 } from "react-icons/fi";
 
 import Cookie from "js-cookie";
