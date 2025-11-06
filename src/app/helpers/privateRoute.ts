@@ -12,12 +12,20 @@ export default async function privateRoute(
 
     if (!token) {
       return NextResponse.json(
-        { code: "user-not-authorized", message: "you are not authorized" },
+        { code: "user-not-authorized", message: "You are not authorized" },
         { status: 401 },
       );
     }
 
-    jwt.verify(token, process?.env?.JWT_SECRET!);
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      return NextResponse.json(
+        { code: "server-error", message: "Missing JWT secret" },
+        { status: 500 },
+      );
+    }
+
+    jwt.verify(token, secret);
     const decodedToken = jwt.decode(token) as JwtPayload & { id: string };
 
     return cb(decodedToken, token);
@@ -33,14 +41,20 @@ export default async function privateRoute(
         { status: 401 },
       );
     }
+
     if (err.name === "TokenExpiredError") {
       return NextResponse.json(
         {
           code: "token-expired",
-          message: "The token you provided has been expired.",
+          message: "The token you provided has expired.",
         },
         { status: 401 },
       );
     }
+
+    return NextResponse.json(
+      { code: "unknown-error", message: "Unexpected error occurred." },
+      { status: 500 },
+    );
   }
 }
