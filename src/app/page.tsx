@@ -61,7 +61,13 @@ function PageContent() {
   return (
     <section className="w-full min-h-dvh flex flex-col p-5 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <HeaderSection onAddBlog={() => setIsAddBlogModalOpen(true)} />
-      <SearchBar value={searchInput} onChange={setSearchInput} />
+
+      <div className="w-full lg:-mt-30 flex justify-center">
+        <div className="w-full lg:w-1/4 xl:w-2/5">
+          <SearchBar value={searchInput} onChange={setSearchInput} />
+        </div>
+      </div>
+
       <div className="w-full max-w-7xl mx-auto flex-1">
         <BlogGrid
           blogs={blogs}
@@ -72,12 +78,14 @@ function PageContent() {
           <NoResults />
         )}
       </div>
+
       <PaginationSection
         currentPage={currentPage}
         numOfPages={numOfPages}
         size={searchParams.get("size") || "6"}
         handleSizeChange={handleSizeChange}
       />
+
       <AddBlogModal
         isOpen={isAddBlogModalOpen}
         onClose={() => setIsAddBlogModalOpen(false)}
