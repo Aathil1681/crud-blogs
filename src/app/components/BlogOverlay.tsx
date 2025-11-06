@@ -66,6 +66,7 @@ const BlogOverlay: React.FC<BlogOverlayProps> = ({
     try {
       await api.delete(`/blog/${blog?.id}`);
       onClose();
+      window.location.reload();
       if (onDelete) onDelete();
     } catch (err) {
       console.error("Delete failed:", err);

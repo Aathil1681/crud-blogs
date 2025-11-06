@@ -174,9 +174,7 @@ export async function GET(
   context: { params: { id: string } },
 ) {
   try {
-    // Try different ways to access the id
-    const id = context.params?.id;
-
+    const { id } = await context.params;
     if (!id) {
       return NextResponse.json(
         { error: "Blog ID is required" },

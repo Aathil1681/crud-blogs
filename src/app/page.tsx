@@ -62,7 +62,11 @@ const Page = () => {
       <HeaderSection onAddBlog={() => setIsAddBlogModalOpen(true)} />
       <SearchBar value={searchInput} onChange={setSearchInput} />
       <div className="w-full max-w-7xl mx-auto flex-1">
-        <BlogGrid blogs={blogs} isLoading={isBlogsLoading} />
+        <BlogGrid
+          blogs={blogs}
+          isLoading={isBlogsLoading}
+          searchTerm={debouncedValue}
+        />
         {!isBlogsLoading && (!blogs || blogs.items.length === 0) && (
           <NoResults />
         )}

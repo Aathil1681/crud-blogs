@@ -2,7 +2,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Cookie from "js-cookie";
-import { cookieKeys } from "../../config/cookie.config"; // adjust path if needed
+import { cookieKeys } from "../../config/cookie.config";
+import { MdBiotech } from "react-icons/md";
 
 interface HeaderSectionProps {
   onAddBlog: () => void;
@@ -20,13 +21,22 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({ onAddBlog }) => {
     <div className="w-full max-w-7xl mx-auto mb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5">
         {/* --- Text Content --- */}
-        <div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-500 mb-1">
-            TECH-TALKS
-          </h1>
-          <p className="text-lg text-gray-500 dark:text-gray-400">
-            Discover amazing content and insights.
-          </p>
+        <div className="flex items-center gap-4 p-4">
+          <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg">
+            <MdBiotech className="text-2xl text-white" />
+          </div>
+
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">
+              TECH-
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
+                TALKS
+              </span>
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 font-light">
+              Discover amazing content and insights
+            </p>
+          </div>
         </div>
 
         {/* --- Action Buttons --- */}

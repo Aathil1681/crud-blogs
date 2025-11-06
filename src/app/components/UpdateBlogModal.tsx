@@ -30,6 +30,7 @@ const UpdateBlogModal: React.FC<UpdateBlogModalProps> = ({
     try {
       await api.put(`blog/${blog.id}`, formData);
       onUpdated();
+      window.location.reload();
     } catch (err) {
       console.error("Update failed:", err);
     }

@@ -1,14 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import BlogOverlay from "./BlogOverlay";
+import { highlightText } from "../utils/highlight";
 
 interface BlogGridProps {
   blogs: any;
   isLoading: boolean;
-  refetch?: () => void; // to refresh blogs after delete
+  refetch?: () => void;
+  searchTerm?: string;
 }
 
-const BlogGrid: React.FC<BlogGridProps> = ({ blogs, isLoading, refetch }) => {
+const BlogGrid: React.FC<BlogGridProps> = ({
+  blogs,
+  isLoading,
+  refetch,
+  searchTerm = "",
+}) => {
   const [selectedBlog, setSelectedBlog] = useState<any>(null);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
@@ -63,11 +70,11 @@ const BlogGrid: React.FC<BlogGridProps> = ({ blogs, isLoading, refetch }) => {
             {/* Content */}
             <div className="p-6">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                {blog.title}
+                {highlightText(blog.title, searchTerm)}
               </h3>
 
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">
-                {blog.content}
+                {highlightText(blog.content || blog.description, searchTerm)}
               </p>
 
               <div className="flex items-center justify-between">
