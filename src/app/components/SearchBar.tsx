@@ -9,7 +9,6 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => (
   <div className="w-full max-w-7xl md:max-w-6xl lg:max-w-7xl xl:max-w-8xl 2xl:max-w-[1800px] mx-auto mb-8 justify-center flex">
     <div className="relative w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
-      {" "}
       {/* Responsive widths */}
       <input
         type="search"
