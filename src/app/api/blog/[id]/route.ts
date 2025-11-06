@@ -157,16 +157,18 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
  * @desc Fetch a single blog with author details
  * @access Public
  */
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: { id: string } },
+) {
   const { id } = params;
 
   try {
-    if (!id) {
+    if (!id)
       return NextResponse.json(
         { error: "Blog ID is required" },
         { status: 400 },
       );
-    }
 
     const blog = await prisma.blog.findUnique({
       where: { id },
@@ -177,9 +179,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       },
     });
 
-    if (!blog) {
+    if (!blog)
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
-    }
 
     return NextResponse.json(blog, { status: 200 });
   } catch (error) {
