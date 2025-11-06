@@ -10,7 +10,8 @@ import PaginationSection from "./components/PaginationSection";
 import NoResults from "./components/NoResults";
 import BlogGrid from "./components/BlogGrids";
 
-const Page = () => {
+// Create a separate component that uses useSearchParams
+function PageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
@@ -24,7 +25,7 @@ const Page = () => {
       }, 300);
       return () => clearTimeout(timer);
     } else setDebouncedValue("");
-  }, [searchInput]);
+  }, [searchInput, debouncedValue]); // Fixed: added debouncedValue to dependencies
 
   const options = useMemo<GetBlogParam>(
     () => ({
@@ -83,6 +84,24 @@ const Page = () => {
         onBlogCreated={refetch}
       />
     </section>
+  );
+}
+
+// Main page component wrapped with Suspense
+const Page = () => {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="w-full min-h-dvh flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <PageContent />
+    </React.Suspense>
   );
 };
 
