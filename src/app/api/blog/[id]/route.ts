@@ -12,14 +12,14 @@ import privateRoute from "../../../helpers/privateRoute";
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   return privateRoute(request, async (user) => {
     try {
-      const { id } = params;
+      const { id } = await context.params;
       const body = await request.json();
 
-      // First, check if the blog exists and user owns it
+      // Check if the blog exists and user owns it
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
         include: { Author: true },
@@ -69,14 +69,14 @@ export async function PUT(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   return privateRoute(request, async (user) => {
     try {
-      const { id } = params;
+      const { id } = await context.params;
       const body = await request.json();
 
-      // First, check if the blog exists and user owns it
+      // Check if the blog exists and user owns it
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
         include: { Author: true },
@@ -89,7 +89,6 @@ export async function PATCH(
         );
       }
 
-      // Check if the current user is the author
       if (existingBlog.authorId !== user.id) {
         return NextResponse.json(
           { error: "Unauthorized to update this blog post" },
@@ -126,13 +125,12 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   return privateRoute(request, async (user) => {
     try {
-      const { id } = params;
+      const { id } = await context.params;
 
-      // First, check if the blog exists and user owns it
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
         include: { Author: true },
@@ -145,7 +143,6 @@ export async function DELETE(
         );
       }
 
-      // Check if the current user is the author
       if (existingBlog.authorId !== user.id) {
         return NextResponse.json(
           { error: "Unauthorized to delete this blog post" },
@@ -165,4 +162,48 @@ export async function DELETE(
       return handleError(error, "Failed to delete blog post");
     }
   });
+}
+
+/**
+ * @route GET /api/blog/[id]
+ * @desc Fetch a single blog with author details
+ * @access Public
+ */
+export async function GET(
+  request: NextRequest,
+  context: { params: { id: string } },
+) {
+  try {
+    // Try different ways to access the id
+    const id = context.params?.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Blog ID is required" },
+        { status: 400 },
+      );
+    }
+
+    const blog = await prisma.blog.findUnique({
+      where: { id },
+      include: {
+        Author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!blog) {
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(blog, { status: 200 });
+  } catch (error) {
+    return handleError(error, "Failed to fetch blog post");
+  }
 }
