@@ -10,10 +10,10 @@ function isValidObjectId(id: string): boolean {
 // GET user by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // Await the params
 
     console.log("Fetching user with ID:", id); // Debug log
 
@@ -61,10 +61,10 @@ export async function GET(
 // UPDATE user
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // Await the params
 
     if (!isValidObjectId(id)) {
       return NextResponse.json(
@@ -128,11 +128,11 @@ export async function PUT(
 
 // DELETE user and their blogs
 export async function DELETE(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // Await the params
 
     console.log("Attempting to delete user with ID:", id);
 
