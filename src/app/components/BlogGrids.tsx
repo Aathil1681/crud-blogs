@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import BlogOverlay from "./BlogOverlay";
 import { highlightText } from "../utils/highlight";
+import { FiUser } from "react-icons/fi"; // ✅ added for icon
 
 interface BlogGridProps {
   blogs: any;
@@ -69,9 +70,19 @@ const BlogGrid: React.FC<BlogGridProps> = ({
 
             {/* Content */}
             <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 {highlightText(blog.title, searchTerm)}
               </h3>
+
+              {/*  Author display section */}
+              {blog.Author && (
+                <div className="flex items-center gap-2 mb-3 text-sm text-gray-600 dark:text-gray-400">
+                  <FiUser className="w-4 h-4 text-indigo-500" />
+                  <span className="inline-flex items-center gap-1.5 text-sm font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 px-3 py-1 rounded-full">
+                    {blog.Author.firstName} {blog.Author.lastName}
+                  </span>
+                </div>
+              )}
 
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 leading-relaxed">
                 {highlightText(blog.content || blog.description, searchTerm)}
