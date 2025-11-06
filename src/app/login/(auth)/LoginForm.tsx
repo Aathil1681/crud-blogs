@@ -10,8 +10,8 @@ import Cookie from "js-cookie";
 import toast from "react-hot-toast";
 import { AnimatedInput } from "./AnimatedInput";
 import { cookieKeys } from "@/config/cookie.config";
-import { LoginSchema, UserSchema } from "@/lib/user.schema";
-import { LoginInput, UserInput } from "@/types/types";
+import { LoginSchema } from "@/lib/user.schema";
+import { LoginInput } from "@/types/types";
 import api from "../../helpers/baseApi";
 
 type LoginFormProps = {
@@ -149,7 +149,7 @@ export function LoginForm({ toggleView }: LoginFormProps) {
           className="mt-8 text-center"
         >
           <p className="text-gray-100 text-sm">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <button
               onClick={toggleView}
               className="font-semibold text-indigo-300 hover:text-indigo-500 transition-colors duration-200"

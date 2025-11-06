@@ -11,7 +11,7 @@ export default function generateToken(id: string) {
       },
     );
     return token;
-  } catch (error) {
+  } catch (_error) {
     throw {
       code: "error-generating-jwt",
       message: "failed to generate token",

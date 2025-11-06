@@ -96,7 +96,7 @@ export default function AddBlogModal({
 
     try {
       // Use your axios instance that automatically includes the token
-      const response = await api.post("blog", formData);
+      const _response = await api.post("blog", formData);
 
       // Reset form and close modal
       setFormData({

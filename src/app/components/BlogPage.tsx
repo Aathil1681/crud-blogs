@@ -14,7 +14,7 @@ interface DecodedToken {
 }
 
 const BlogPage = () => {
-  const [blogs, setBlogs] = useState<any[]>([]);
+  const [blogs, _setBlogs] = useState<any[]>([]);
   const [filteredBlogs, setFilteredBlogs] = useState<any[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [showMyBlogs, setShowMyBlogs] = useState(false);

@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
     if (session && onlyPublicRoutes.includes(url)) {
       //proceed
 
-      let url = "/"; //redirect to home
+      const url = "/"; //redirect to home
 
       return NextResponse.redirect(new URL(url, request.url));
     }
@@ -47,7 +47,7 @@ export async function middleware(request: NextRequest) {
       NextResponse.next();
     }
   } catch (error) {
-    const err: any = error;
+    const _err: any = error;
 
     (await cookies()).delete(cookieKeys.USER_TOKEN);
 

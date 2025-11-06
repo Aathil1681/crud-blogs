@@ -12,11 +12,11 @@ import privateRoute from "../../../helpers/privateRoute";
  */
 export async function PUT(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
   return privateRoute(request, async (user) => {
     try {
-      const { id } = await context.params;
+      const { id } = params;
       const body = await request.json();
 
       // Check if the blog exists and user owns it
@@ -69,14 +69,13 @@ export async function PUT(
  */
 export async function PATCH(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
   return privateRoute(request, async (user) => {
     try {
-      const { id } = await context.params;
+      const { id } = params;
       const body = await request.json();
 
-      // Check if the blog exists and user owns it
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
         include: { Author: true },
@@ -125,11 +124,11 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
   return privateRoute(request, async (user) => {
     try {
-      const { id } = await context.params;
+      const { id } = params;
 
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
@@ -171,10 +170,11 @@ export async function DELETE(
  */
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } },
+  { params }: { params: { id: string } },
 ) {
   try {
-    const { id } = await context.params;
+    const { id } = params;
+
     if (!id) {
       return NextResponse.json(
         { error: "Blog ID is required" },

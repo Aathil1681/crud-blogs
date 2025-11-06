@@ -47,13 +47,13 @@ const Page = () => {
     return Math.ceil(count / size);
   }, [searchParams, blogs]);
 
-  let currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = parseInt(event.target.value, 10);
     const totalItems = blogs?.count || 0;
     const newNumOfPages = Math.ceil(totalItems / newSize);
-    let adjustedPage = Math.min(currentPage, newNumOfPages || 1);
+    const adjustedPage = Math.min(currentPage, newNumOfPages || 1);
     router.push(`/?page=${adjustedPage}&size=${newSize}`);
   };
 
