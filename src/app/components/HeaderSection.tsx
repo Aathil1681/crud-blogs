@@ -147,7 +147,7 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({ onAddBlog }) => {
             {loggedIn ? (
               <FiUser className="w-5 h-5" />
             ) : (
-              <FiLogIn className="w-5 h-5 lg:hidden" />
+              <FiLogIn className="w-6 h-6 lg:hidden" />
             )}
           </button>
         </div>
@@ -179,7 +179,7 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({ onAddBlog }) => {
         <div className="lg:hidden fixed bottom-6 right-6 z-50">
           <button
             onClick={handleLogin}
-            className="w-14 h-14 flex items-center justify-center rounded-full shadow-2xl bg-gradient-to-r from-green-600 to-emerald-700 hover:opacity-90 transition-all duration-300"
+            className="hidden w-14 h-14  items-center justify-center rounded-full shadow-2xl bg-gradient-to-r from-green-600 to-emerald-700 hover:opacity-90 transition-all duration-300"
             title="Login"
           >
             <FiLogIn className="w-6 h-6 text-white" />

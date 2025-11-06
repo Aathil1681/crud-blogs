@@ -187,7 +187,7 @@ const UserDetailsPage = () => {
 
   const handleLogout = () => {
     Cookie.remove(cookieKeys.USER_TOKEN);
-    router.push("/login");
+    router.push("/");
   };
 
   const formatDateTime = (dateString: string) => {
