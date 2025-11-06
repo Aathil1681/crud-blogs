@@ -5,8 +5,8 @@ import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata: Metadata = {
-  title: "KIFGO | INTERN TRAINING",
-  description: "This is a simple blog app",
+  title: "Tech-Talk",
+  description: "This is a CRUD blog application",
 };
 
 export default function RootLayout({
