@@ -5,19 +5,16 @@ import handleError from "../../../helpers/handleError";
 import { BlogSchema } from "../../../../lib/blog.schema";
 import privateRoute from "../../../helpers/privateRoute";
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
 /**
  * @route PUT /api/blog/[id]
  * @desc Update a blog post
  * @access Private
  */
-export async function PUT(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
 
   return privateRoute(request, async (user) => {
     try {
@@ -66,8 +63,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  * @desc Partially update a blog post
  * @access Private
  */
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
 
   return privateRoute(request, async (user) => {
     try {
@@ -116,8 +116,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  * @desc Delete a blog post
  * @access Private
  */
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
-  const { id } = params;
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
 
   return privateRoute(request, async (user) => {
     try {
@@ -158,17 +161,18 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
  * @access Public
  */
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } },
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
-    if (!id)
+    if (!id) {
       return NextResponse.json(
         { error: "Blog ID is required" },
         { status: 400 },
       );
+    }
 
     const blog = await prisma.blog.findUnique({
       where: { id },
@@ -179,8 +183,9 @@ export async function GET(
       },
     });
 
-    if (!blog)
+    if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
 
     return NextResponse.json(blog, { status: 200 });
   } catch (error) {
