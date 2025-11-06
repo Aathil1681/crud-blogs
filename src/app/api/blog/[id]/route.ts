@@ -5,19 +5,22 @@ import handleError from "../../../helpers/handleError";
 import { BlogSchema } from "../../../../lib/blog.schema";
 import privateRoute from "../../../helpers/privateRoute";
 
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
 /**
  * @route PUT /api/blog/[id]
  * @desc Update a blog post
  * @access Private
  */
-export async function PUT(
-  request: NextRequest,
-  context: { params: { id: string } },
-) {
-  const { params } = context;
+export async function PUT(request: NextRequest, { params }: RouteParams) {
+  const { id } = params;
+
   return privateRoute(request, async (user) => {
     try {
-      const { id } = params;
       const body = await request.json();
 
       const existingBlog = await prisma.blog.findUnique({
@@ -43,10 +46,7 @@ export async function PUT(
 
       const updatedBlog = await prisma.blog.update({
         where: { id },
-        data: {
-          ...validatedData,
-          updatedAt: new Date(),
-        },
+        data: { ...validatedData, updatedAt: new Date() },
         include: {
           Author: {
             omit: { password: true, createdAt: true, updatedAt: true },
@@ -66,14 +66,11 @@ export async function PUT(
  * @desc Partially update a blog post
  * @access Private
  */
-export async function PATCH(
-  request: NextRequest,
-  context: { params: { id: string } },
-) {
-  const { params } = context;
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
+  const { id } = params;
+
   return privateRoute(request, async (user) => {
     try {
-      const { id } = params;
       const body = await request.json();
 
       const existingBlog = await prisma.blog.findUnique({
@@ -99,10 +96,7 @@ export async function PATCH(
 
       const updatedBlog = await prisma.blog.update({
         where: { id },
-        data: {
-          ...validatedData,
-          updatedAt: new Date(),
-        },
+        data: { ...validatedData, updatedAt: new Date() },
         include: {
           Author: {
             omit: { password: true, createdAt: true, updatedAt: true },
@@ -122,15 +116,11 @@ export async function PATCH(
  * @desc Delete a blog post
  * @access Private
  */
-export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } },
-) {
-  const { params } = context;
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  const { id } = params;
+
   return privateRoute(request, async (user) => {
     try {
-      const { id } = params;
-
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
         include: { Author: true },
@@ -150,9 +140,7 @@ export async function DELETE(
         );
       }
 
-      await prisma.blog.delete({
-        where: { id },
-      });
+      await prisma.blog.delete({ where: { id } });
 
       return NextResponse.json(
         { message: "Blog post deleted successfully" },
@@ -169,14 +157,10 @@ export async function DELETE(
  * @desc Fetch a single blog with author details
  * @access Public
  */
-export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } },
-) {
-  const { params } = context;
-  try {
-    const { id } = params;
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  const { id } = params;
 
+  try {
     if (!id) {
       return NextResponse.json(
         { error: "Blog ID is required" },
@@ -188,12 +172,7 @@ export async function GET(
       where: { id },
       include: {
         Author: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
+          select: { id: true, firstName: true, lastName: true, email: true },
         },
       },
     });
