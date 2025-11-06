@@ -12,14 +12,14 @@ import privateRoute from "../../../helpers/privateRoute";
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: { id: string } },
 ) {
+  const { params } = context;
   return privateRoute(request, async (user) => {
     try {
       const { id } = params;
       const body = await request.json();
 
-      // Check if the blog exists and user owns it
       const existingBlog = await prisma.blog.findUnique({
         where: { id },
         include: { Author: true },
@@ -32,7 +32,6 @@ export async function PUT(
         );
       }
 
-      // Check if the current user is the author
       if (existingBlog.authorId !== user.id) {
         return NextResponse.json(
           { error: "Unauthorized to update this blog post" },
@@ -69,8 +68,9 @@ export async function PUT(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: { id: string } },
 ) {
+  const { params } = context;
   return privateRoute(request, async (user) => {
     try {
       const { id } = params;
@@ -124,8 +124,9 @@ export async function PATCH(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: { id: string } },
 ) {
+  const { params } = context;
   return privateRoute(request, async (user) => {
     try {
       const { id } = params;
@@ -170,8 +171,9 @@ export async function DELETE(
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: { id: string } },
 ) {
+  const { params } = context;
   try {
     const { id } = params;
 
